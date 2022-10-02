@@ -1,0 +1,11 @@
+
+New in version 1.4
+1) Generate traces using Tejas shared memory mode without running instructions. 
+2) Support for Intel Pin 3.21
+3) Constraint Based Debugging (See README)
+4) Benchmark arguments bug
+5) DRAM parent Cache bug
+
+Version 1.4.1
+1) Bug fixes
+

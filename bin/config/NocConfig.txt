@@ -1,0 +1,7 @@
+5 4
+M	-	D1	M
+C	L3	C	L3
+L3	C	L3	C
+C	L3	C	L3
+L3	C	L3	C
+

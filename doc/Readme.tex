@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\title{\textbf {Tejas Instructions}}
+\date{\today}
+\begin{document}
+\maketitle
+\section{How To Setup Tejas}
+\subsection{Pre-requisites}
+\begin{enumerate}
+	\item Download Intel PIN. Tested for version 3.21
+https://software.intel.com/en-us/articles/pin-a-binary-instrumentation-tool-downloads
+	\item Java version: openjdk8
+	\item make
+	\item ant
+	\item g++
+\end{enumerate}
+
+\subsection{Commands To Build}
+Make changes to (set absolute path as per your machine) :\\
+\path{src/simulator/config/config.xml}\\
+\path{src/emulator/pin/makefile_linux_mac}
+\\
+\noindent
+After the changes are done, run \\
+\textbf{ant make-jar}\\
+If everything goes well, this will create a jars folder with tejas.jar in it.\\
+To test everything works, run\\
+ cd tests \\
+ ./test.sh
+ 
+ 
+
+\section{Running a Bag of Tasks}
+
+\textbf{Note:} This will work for file mode only.
+
+\begin{enumerate}
+  \item Search for the \textit{Applications} tag in the config file.
+  \item Add the paths of the trace files (benchmarks) and the number of threads which you want to run for each benchmark.
+\end{enumerate}
+
+\section{Intermediate Statistics}
+You can dump the intermediate statistics from a running simulation by 
+sending a ``kill -1" signal to the Java process. 
+example: kill -1 $<$java-pid$>$
+
+\section{Cache Warmup}
+Set the parameter $NumInsForCacheWarmup$ in config.xml for cache warmup.
+
+\section{Generating Traces}
+Set the parameters in the config file to generate traces to true and give a path for the traces. Then use the command,
+
+\textit{java -jar tejas.jar $--$generate-trace $<$rest of the arguments$>$}
+
+You will know that it works if you see a message on stdout stating that no instructions will be executed. 
+
+\section{Constraint Based Debugging}
+
+See example config.xml in src/simulator/config package. To enable CBD, you must enable it in the config file and also provide a time delta. Time Delta specifies how often the constraints are run. These do not correspond to cycles on a core but to the global clock in Tejas. In general, the higher the value, the less often constraints are run.
+
+To specify which constraints to run, you must specify it in a $Constraints$ tag in the config file. $Constraints$ contains a list of $Constraint$ tags. Each $Constraint$ specifies a $Class$ in which the constraint is present, and a $Method$, which is the actual function you define as a constraint. Currently, constraints can take four types of input, $Double$,$Long$,$Boolean$, and $String$.
+
+\subsection{Writing Constraints}
+
+Your constraint function must be a \textbf{public static} function. This is to allow Java reflection to search and cache it. Order of arguments must agree with the specified order in the config file. \textit{Note:} The function must take object values (Use $Integer$ instead of $int$).
+
+Your function may optionally return a $Boolean$ object, which should be set to true if the constraint 'Succeded' (You may define the notion of success as you please). If such a value is received by the system, it is reported on stdout.
+
+Get creative with the system! Your function may write to a file, and you can use external tools to analyze the data!
+
+\end{document}
