@@ -21,11 +21,8 @@ public class CacheFlush implements X86StaticInstructionHandler {
                         if(operand1.isMemoryOperand() && operand2==null && operand3==null)
                         {
                             //System.out.println("Clflush Encountered "+instructionPointer);
-                            Operand op= OperandTranslator.getLocationToStoreValue(operand1, tempRegisterNum);
 
-                            Instruction ins =  Instruction.getLoadInstruction(operand1,op);
-                            instructionArrayList.appendInstruction(ins);
-                            ins = Instruction.getCacheFlushInstruction(op);
+                            Instruction ins = Instruction.getCacheFlushInstruction(operand1);
                             instructionArrayList.appendInstruction(ins);
                             
                             

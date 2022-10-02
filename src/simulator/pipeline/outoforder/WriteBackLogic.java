@@ -89,18 +89,20 @@ public class WriteBackLogic extends SimulationElement {
 													buffer[i].getOperand2PhyReg1());
 					}
 				}
-				// else if(buffer[i].getInstruction().getOperationType()==OperationType.clflush)
-				// {
-				// 	Instruction ins1 = buffer[i].getInstruction();
+				else if(buffer[i].getInstruction().getOperationType()==OperationType.clflush)
+				{
+					Instruction ins1 = buffer[i].getInstruction();
 					
-				// 	//Long addr = ins1.getSourceOperand1MemValue();
-				// 	int op1 = buffer[i].getOperand1PhyReg1();
-				// 	//System.out.println("Exec unit "+ addr);
-				// 	System.out.println(buffer[i].getOperand1PhyReg1());
-				// 	//execEngine.getCoreMemorySystem().getL1Cache().clearLine(op1);
-				// 	System.out.println(execEngine.getIntegerRegisterFile().getValue(op1));
-				// 	System.out.println(ins1.toString());
-				// }
+					//Long addr = ins1.getSourceOperand1MemValue();
+					//int op1 = buffer[i].getOperand1PhyReg1();
+					//System.out.println("Exec unit "+ addr);
+					Long addr = ins1.getSourceOperand1MemValue();
+					System.out.println(execEngine.getCoreMemorySystem().getL1Cache().access(addr));
+					//execEngine.getCoreMemorySystem().getL1Cache().clearLine(op1);
+					// for(int j=0;j<execEngine.getIntegerRegisterFile().getRegisterFileSize();j++)
+					// 	System.out.println(execEngine.getIntegerRegisterFile().getValue(j).toString());
+					//System.out.println(ins1.toString());
+				}
 
 				if(SimulationConfig.debugMode)
 				{
