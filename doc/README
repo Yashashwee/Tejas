@@ -1,0 +1,89 @@
+HOW TO setup Tejas:
+-----------------------
+Building
+---------
+how to setup the simulator for the first time.
+
+Pre-requisite:
+1. Download Intel PIN. Tested for version 3.7 Kit: 97619
+https://software.intel.com/en-us/articles/pin-a-binary-instrumentation-tool-downloads
+
+2. Java version: openjdk8
+3. make
+4. ant
+5. g++ 
+
+Commands to build:
+--------------
+
+Make changes to (set absolute path as per your machine) :
+
+src/simulator/config/config.xml
+	<Tejashome>
+	<PinTool>
+	<ShmLibDirectory>
+	<KillEmulatorScript>
+	<NocConfigFile>
+
+src/emulator/pin/makefile_linux_mac
+	PIN_KIT ?=
+
+Run:
+ant make-jar
+
+If everything goes well, this will create a jars folder with tejas.jar in it.
+
+Testing
+----------
+a) cd tests
+b) Set absolute paths of <tejas.jar> <config.xml> <hello.out> <hello.o> in test.sh
+c) ./test.sh
+
+# Examples of configure parameters:
+src/simulator/config/config.xml
+
+Tejas directory structure
+------------------------------
+
+doc			- contains explanation of the functionality and working of 
+		  	  source code with suitable examples
+LICENSE		- Contains the terms and conditions for use, reproduction and distribution
+MAINTAINERS	- who is responsible for what description
+NOTICE		- copyright notice
+README		- Contains instructions to build and provides overview of Tejas
+src		    - all real code for Tejas is in this directory (description below)
+TODO		- if you have some time available and you want to have some fun, 
+		      check this file and help improve Tejas
+
+
+src directory structure
+-----------------------
+
+configure	      - configuration script
+emulator	      - source files of the emulator (Implemented in C++)
+simulator	      - source files of the simulator (Implemented in Java)
+
+/src/simulator/ :
+generic 	      - functionalities used across packages
+	    	        for example : event queue is used by memory-system and pipeline
+misc	  	      - miscellaneous functions
+memory  	      - cache simulator
+pipeline	      - pipeline simulation
+config  	      - used to set various configuration parameters such as underlying architecture,
+		    	    number of cores, and branch-predictor 
+power   	      - power modelling of the system using performance counters
+net	  	          - simulate the on-chip network to estimate the delay due to bus-contention
+emulatorinterface - interface to the emulator
+
+
+/src/simulator/emulatorinterface :
+translator            - translates the assembly-format of the executable to abstract instruction
+translator/x86        - x86 translator
+translator/mips       - mips translator
+translator/arm        - arm translator
+communication         - used to take the value from the emulator
+communication/shm     - shared memory
+communication/pipe    - pipe
+communication/network - network
+communication/socket  - sockets
+instruction 	      - abstract format of the instruction
